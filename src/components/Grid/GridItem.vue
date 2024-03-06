@@ -867,10 +867,10 @@ function tryMakeResizable() {
     const opts = {
       // allowFrom: "." + this.resizableHandleClass.trim().replace(" ", "."),
       edges: {
-        left: false,
+        left: true,
         right: "." + resizableHandleClass.value.trim().replace(" ", "."),
         bottom: "." + resizableHandleClass.value.trim().replace(" ", "."),
-        top: false
+        top: true
       },
       ignoreFrom: props.resizeIgnoreFrom,
       restrictSize: {
