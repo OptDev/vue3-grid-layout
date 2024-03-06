@@ -4,6 +4,7 @@
     "target": "ESNext",
     "useDefineForClassFields": true,
     "suppressImplicitAnyIndexErrors": true,
+    "ignoreDeprecations": "5.0",
     "module": "ESNext",
     "moduleResolution": "Node",
     "strict": true,
