@@ -174,7 +174,7 @@ function gn(e) {
 }
 function Vi(e) {
   const t = e.target, n = t.offsetParent || document.body, i = t.offsetParent === document.body ? { left: 0, top: 0 } : n.getBoundingClientRect(), o = e.clientX + n.scrollLeft - i.left, r = e.clientY + n.scrollTop - i.top;
-  return console.log("x", o, r), { x: o, y: r };
+  return { x: o, y: r };
 }
 function vn(e, t, n, i) {
   return Ki(e) ? {
@@ -3992,8 +3992,8 @@ const ys = {
           }
           case "resizemove": {
             const tt = vn(ot.value, L.value, Ft, te);
-            if (console.log("event.edges", p.edges), p.edges.left && (tt.deltaX = -tt.deltaX), ft.value ? at.width = Number((E = C.value) == null ? void 0 : E.width) - tt.deltaX / y.value : at.width = Number((F = C.value) == null ? void 0 : F.width) + tt.deltaX / y.value, (p.edges.left || p.edges.right) && !p.edges.bottom ? at.height = Number((X = C.value) == null ? void 0 : X.height) : at.height = Number((A = C.value) == null ? void 0 : A.height) + tt.deltaY / y.value, C.value = at, p.edges.left) {
-              console.log("left drag", p), d.value = !1;
+            if (p.edges.left && (tt.deltaX = -tt.deltaX), ft.value ? at.width = Number((E = C.value) == null ? void 0 : E.width) - tt.deltaX / y.value : at.width = Number((F = C.value) == null ? void 0 : F.width) + tt.deltaX / y.value, (p.edges.left || p.edges.right) && !p.edges.bottom ? at.height = Number((X = C.value) == null ? void 0 : X.height) : at.height = Number((A = C.value) == null ? void 0 : A.height) + tt.deltaY / y.value, C.value = at, p.edges.left) {
+              d.value = !1;
               let ct = { ...p };
               ct.clientX = ct.client.x, ct.clientY = ct.client.y, ct.type = "dragmove", Et(ct), d.value = !0;
             }
@@ -4023,9 +4023,8 @@ const ys = {
       var te, at, j, me, tt;
       if (s.static || d.value)
         return;
-      console.log("event", p);
       const E = gn(p);
-      if (console.log("position", E), E === null)
+      if (E === null)
         return;
       const { x: F, y: X } = E;
       let A = { top: 0, left: 0 };
