@@ -132,11 +132,14 @@ onMounted(() => {
       <GridLayout
         ref="refLayout"
         v-model:layout="testLayout"
-        :responsive="responsive"
+        :responsive="true"
         :col-num="12"
         :row-height="30"
+        :is-draggable="true"
+        :is-resizable="true"
         :vertical-compact="true"
         :use-css-transforms="true"
+        :prevent-collision="false"
       >
         <grid-item
           v-for="item in testLayout"
