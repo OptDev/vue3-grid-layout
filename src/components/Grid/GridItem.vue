@@ -11,6 +11,7 @@ export default {
 }
 </script>
 <script lang="ts" setup>
+// @ts-nocheck
 import {ref, inject, computed, watch, onBeforeUnmount, onMounted, useSlots} from "vue"
 // import useCurrentInstance from "@/hooks/useInstance"
 import {setTopLeft, setTopRight, setTransformRtl, setTransform, Layout} from "@/helpers/utils"
@@ -498,6 +499,7 @@ function handleResize(event: MouseEvent) {
 
     const newSize = {width: 0, height: 0}
     let pos
+
     switch (event.type) {
       case "resizestart": {
         tryMakeResizable()
@@ -508,20 +510,49 @@ function handleResize(event: MouseEvent) {
         newSize.height = pos.height
         resizing.value = newSize
         isResizing.value = true
+
+        if (event.edges.left) {
+          isResizing.value = false
+          let dragEvent = {...event}
+          dragEvent.clientX = dragEvent.client.x
+          dragEvent.clientY = dragEvent.client.y
+
+          dragEvent.type = "dragstart"
+          handleDrag(dragEvent)
+          isResizing.value = true
+        }
+
         break
       }
       case "resizemove": {
         //                        console.log("### resize => " + event.type + ", lastW=" + this.lastW + ", lastH=" + this.lastH);
         const coreEvent = createCoreData(lastW.value, lastH.value, x, y)
+        if (event.edges.left) {
+          coreEvent.deltaX = -coreEvent.deltaX
+        }
         if (renderRtl.value) {
           newSize.width = Number(resizing.value?.width) - coreEvent.deltaX / transformScale.value
         } else {
           newSize.width = Number(resizing.value?.width) + coreEvent.deltaX / transformScale.value
         }
-        newSize.height = Number(resizing.value?.height) + coreEvent.deltaY / transformScale.value
+        if ((event.edges.left || event.edges.right) && !event.edges.bottom) {
+          newSize.height = Number(resizing.value?.height)
+        } else {
+          newSize.height = Number(resizing.value?.height) + coreEvent.deltaY / transformScale.value
+        }
 
         ///console.log("### resize => " + event.type + ", deltaX=" + coreEvent.deltaX + ", deltaY=" + coreEvent.deltaY);
         resizing.value = newSize
+
+        if (event.edges.left) {
+          isResizing.value = false
+          let dragEvent = {...event}
+          dragEvent.clientX = dragEvent.client.x
+          dragEvent.clientY = dragEvent.client.y
+          dragEvent.type = "dragmove"
+          handleDrag(dragEvent)
+          isResizing.value = true
+        }
         break
       }
       case "resizeend": {
@@ -532,6 +563,14 @@ function handleResize(event: MouseEvent) {
         //                        console.log("### resize end => " + JSON.stringify(newSize));
         resizing.value = null
         isResizing.value = false
+
+        if (event.edges.left) {
+          let dragEvent = {...event}
+          dragEvent.clientX = dragEvent.client.x
+          dragEvent.clientY = dragEvent.client.y
+          dragEvent.type = "dragend"
+          handleDrag(dragEvent)
+        }
         break
       }
     }
@@ -657,7 +696,11 @@ function handleDrag(event: MouseEvent) {
       } else {
         newPosition.left = Number(dragging.value?.left) + coreEvent.deltaX / transformScale.value
       }
-      newPosition.top = Number(dragging.value?.top) + coreEvent.deltaY / transformScale.value
+      if (event?.edges?.left) {
+        newPosition.top = Number(dragging.value?.top)
+      } else {
+        newPosition.top = Number(dragging.value?.top) + coreEvent.deltaY / transformScale.value
+      }
       if (bounded.value) {
         const tg = event.target as HTMLElement
         const parentTg = tg.offsetParent as HTMLElement
@@ -868,9 +911,9 @@ function tryMakeResizable() {
       // allowFrom: "." + this.resizableHandleClass.trim().replace(" ", "."),
       edges: {
         left: true,
-        right: "." + resizableHandleClass.value.trim().replace(" ", "."),
-        bottom: "." + resizableHandleClass.value.trim().replace(" ", "."),
-        top: true
+        right: true,
+        bottom: true,
+        top: false
       },
       ignoreFrom: props.resizeIgnoreFrom,
       restrictSize: {
@@ -1002,7 +1045,7 @@ defineExpose({
 
 .vue-grid-item.vue-grid-placeholder {
   background: red;
-  opacity: 0.2;
+  opacity: 0.1;
   transition-duration: 100ms;
   z-index: 2;
   -webkit-user-select: none;

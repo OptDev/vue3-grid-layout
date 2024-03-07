@@ -148,8 +148,6 @@ onMounted(() => {
           :w="item.w"
           :h="item.h"
           :i="item.i"
-          :min-h="3"
-          :min-w="3"
           @resized="handleResize"
         >
           <!--<custom-drag-element :text="item.i"></custom-drag-element>-->
