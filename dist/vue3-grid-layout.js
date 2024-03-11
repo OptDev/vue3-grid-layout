@@ -4140,7 +4140,7 @@ const ys = {
             left: !0,
             right: !0,
             bottom: !0,
-            top: !1
+            top: !0
           },
           ignoreFrom: s.resizeIgnoreFrom,
           restrictSize: {
