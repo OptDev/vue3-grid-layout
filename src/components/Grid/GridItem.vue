@@ -913,7 +913,7 @@ function tryMakeResizable() {
         left: true,
         right: true,
         bottom: true,
-        top: true
+        top: false
       },
       ignoreFrom: props.resizeIgnoreFrom,
       restrictSize: {
