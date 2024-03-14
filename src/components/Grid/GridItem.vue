@@ -1007,7 +1007,8 @@ defineExpose({
   autoSize,
   calcXY,
   dragging,
-  ...props
+  ...props,
+  styleObj
 })
 </script>
 <style>
