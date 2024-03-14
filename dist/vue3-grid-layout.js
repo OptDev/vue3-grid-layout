@@ -247,7 +247,7 @@ function eo(e, t) {
 function no(e, t) {
   Un && window.removeEventListener(e, t);
 }
-const U = {
+const V = {
   init: io,
   document: null,
   DocumentFragment: null,
@@ -264,7 +264,7 @@ function Kt() {
 }
 function io(e) {
   const t = e;
-  U.document = t.document, U.DocumentFragment = t.DocumentFragment || Kt, U.SVGElement = t.SVGElement || Kt, U.SVGSVGElement = t.SVGSVGElement || Kt, U.SVGElementInstance = t.SVGElementInstance || Kt, U.Element = t.Element || Kt, U.HTMLElement = t.HTMLElement || U.Element, U.Event = t.Event, U.Touch = t.Touch || Kt, U.PointerEvent = t.PointerEvent || t.MSPointerEvent;
+  V.document = t.document, V.DocumentFragment = t.DocumentFragment || Kt, V.SVGElement = t.SVGElement || Kt, V.SVGSVGElement = t.SVGSVGElement || Kt, V.SVGElementInstance = t.SVGElementInstance || Kt, V.Element = t.Element || Kt, V.HTMLElement = t.HTMLElement || V.Element, V.Event = t.Event, V.Touch = t.Touch || Kt, V.PointerEvent = t.PointerEvent || t.MSPointerEvent;
 }
 var Vn = (e) => !!(e && e.Window) && e instanceof e.Window;
 let Kn, Rt;
@@ -308,8 +308,8 @@ const et = {
   wheelEvent: null
 };
 function ho(e) {
-  const t = U.Element, n = e.navigator || {};
-  et.supportsTouch = "ontouchstart" in e || g.func(e.DocumentTouch) && U.document instanceof e.DocumentTouch, et.supportsPointerEvent = n.pointerEnabled !== !1 && !!U.PointerEvent, et.isIOS = /iP(hone|od|ad)/.test(n.platform), et.isIOS7 = /iP(hone|od|ad)/.test(n.platform) && /OS 7[^\d]/.test(n.appVersion), et.isIe9 = /MSIE 9/.test(n.userAgent), et.isOperaMobile = n.appName === "Opera" && et.supportsTouch && /Presto/.test(n.userAgent), et.prefixedMatchesSelector = "matches" in t.prototype ? "matches" : "webkitMatchesSelector" in t.prototype ? "webkitMatchesSelector" : "mozMatchesSelector" in t.prototype ? "mozMatchesSelector" : "oMatchesSelector" in t.prototype ? "oMatchesSelector" : "msMatchesSelector", et.pEventTypes = et.supportsPointerEvent ? U.PointerEvent === e.MSPointerEvent ? {
+  const t = V.Element, n = e.navigator || {};
+  et.supportsTouch = "ontouchstart" in e || g.func(e.DocumentTouch) && V.document instanceof e.DocumentTouch, et.supportsPointerEvent = n.pointerEnabled !== !1 && !!V.PointerEvent, et.isIOS = /iP(hone|od|ad)/.test(n.platform), et.isIOS7 = /iP(hone|od|ad)/.test(n.platform) && /OS 7[^\d]/.test(n.appVersion), et.isIe9 = /MSIE 9/.test(n.userAgent), et.isOperaMobile = n.appName === "Opera" && et.supportsTouch && /Presto/.test(n.userAgent), et.prefixedMatchesSelector = "matches" in t.prototype ? "matches" : "webkitMatchesSelector" in t.prototype ? "webkitMatchesSelector" : "mozMatchesSelector" in t.prototype ? "mozMatchesSelector" : "oMatchesSelector" in t.prototype ? "oMatchesSelector" : "msMatchesSelector", et.pEventTypes = et.supportsPointerEvent ? V.PointerEvent === e.MSPointerEvent ? {
     up: "MSPointerUp",
     down: "MSPointerDown",
     over: "mouseover",
@@ -323,7 +323,7 @@ function ho(e) {
     out: "pointerout",
     move: "pointermove",
     cancel: "pointercancel"
-  } : null, et.wheelEvent = U.document && "onmousewheel" in U.document ? "mousewheel" : "wheel";
+  } : null, et.wheelEvent = V.document && "onmousewheel" in V.document ? "mousewheel" : "wheel";
 }
 function jt(e, t) {
   if (e.contains)
@@ -374,7 +374,7 @@ function po(e) {
   };
 }
 function en(e) {
-  const t = e instanceof U.SVGElement ? e.getBoundingClientRect() : e.getClientRects()[0];
+  const t = e instanceof V.SVGElement ? e.getBoundingClientRect() : e.getClientRects()[0];
   return t && {
     left: t.left,
     right: t.right,
@@ -393,7 +393,7 @@ function nn(e) {
   return t;
 }
 function bn(e) {
-  return g.string(e) ? (U.document.querySelector(e), !0) : !1;
+  return g.string(e) ? (V.document.querySelector(e), !0) : !1;
 }
 function _(e, t) {
   for (const i in t)
@@ -846,7 +846,7 @@ function Ho(e) {
   e.page.x = 0, e.page.y = 0, e.client.x = 0, e.client.y = 0;
 }
 function ui(e) {
-  return e instanceof U.Event || e instanceof U.Touch;
+  return e instanceof V.Event || e instanceof V.Touch;
 }
 function Ee(e, t, n) {
   return n = n || {}, e = e || "page", n.x = t[e + "X"], n.y = t[e + "Y"], n;
@@ -914,7 +914,7 @@ function jo(e) {
   return g.string(e.pointerType) ? e.pointerType : g.number(e.pointerType) ? [void 0, void 0, "touch", "pen", "mouse"][e.pointerType] : (
     // if the PointerEvent API isn't available, then the "pointer" must
     // be either a MouseEvent, TouchEvent, or Touch object
-    /touch/.test(e.type || "") || e instanceof U.Touch ? "touch" : "mouse"
+    /touch/.test(e.type || "") || e instanceof V.Touch ? "touch" : "mouse"
   );
 }
 function di(e) {
@@ -1730,7 +1730,7 @@ function or(e) {
     t[r] = mi(r, e);
   const n = et.pEventTypes;
   let i;
-  U.PointerEvent ? i = [{
+  V.PointerEvent ? i = [{
     type: n.down,
     listener: o
   }, {
@@ -2358,7 +2358,7 @@ class cr {
   }
 }
 function ur(e, t) {
-  return e.isInitialized = !0, g.window(t) && Jn(t), U.init(t), et.init(t), Zt.init(t), e.window = t, e.document = t.document, e.usePlugin(rr), e.usePlugin(Go), e;
+  return e.isInitialized = !0, g.window(t) && Jn(t), V.init(t), et.init(t), Zt.init(t), e.window = t, e.document = t.document, e.usePlugin(rr), e.usePlugin(Go), e;
 }
 function zn(e) {
   return e && e.replace(/\/.*$/, "");
@@ -3740,7 +3740,7 @@ const On = [{
     const {
       element: t
     } = e;
-    return e.prepared.name === "resize" && t instanceof U.HTMLElement && !Ei(t, "boxSizing", /border-box/);
+    return e.prepared.name === "resize" && t instanceof V.HTMLElement && !Ei(t, "boxSizing", /border-box/);
   },
   text: 'Consider adding CSS "box-sizing: border-box" to this resizable element',
   getInfo(e) {
@@ -3829,7 +3829,7 @@ const ys = {
   },
   emits: ["container-resized", "resize", "resized", "move", "moved"],
   setup(e, { expose: t, emit: n }) {
-    const { proxy: i } = ms(), o = i == null ? void 0 : i.$parent, r = Oi("eventBus"), a = n, s = e, c = O({}), l = O(1), u = O(100), f = O(30), h = O([10, 10]), m = O(1 / 0), x = O(null), T = O(null), y = O(1), D = O(!0), I = O(!0), M = O(!1), v = O(null), d = O(!1), C = O(null), w = O(NaN), $ = O(NaN), ot = O(NaN), L = O(NaN), V = O({}), k = O(!1), b = O(!1), R = O(!1), H = O(null), J = O(null), Z = O(null), Q = O(null), z = O(s.x), st = O(s.y), rt = O(s.w), K = O(s.h), ut = O(null), q = O(null), pe = Vt(() => T.value && !s.static), Pe = Vt(() => (x.value || T.value) && !s.static), Oe = Vt(() => navigator.userAgent.toLowerCase().indexOf("android") !== -1), ft = Vt(() => o != null && o.isMirrored ? !k.value : k.value), S = Vt(() => ({
+    const { proxy: i } = ms(), o = i == null ? void 0 : i.$parent, r = Oi("eventBus"), a = n, s = e, c = O({}), l = O(1), u = O(100), f = O(30), h = O([10, 10]), m = O(1 / 0), x = O(null), T = O(null), y = O(1), D = O(!0), I = O(!0), M = O(!1), v = O(null), d = O(!1), C = O(null), w = O(NaN), $ = O(NaN), ot = O(NaN), L = O(NaN), q = O({}), k = O(!1), b = O(!1), R = O(!1), H = O(null), J = O(null), Z = O(null), Q = O(null), z = O(s.x), st = O(s.y), rt = O(s.w), K = O(s.h), ut = O(null), U = O(null), pe = Vt(() => T.value && !s.static), Pe = Vt(() => (x.value || T.value) && !s.static), Oe = Vt(() => navigator.userAgent.toLowerCase().indexOf("android") !== -1), ft = Vt(() => o != null && o.isMirrored ? !k.value : k.value), S = Vt(() => ({
       "vue-resizable": pe.value,
       static: s.static,
       resizing: d.value,
@@ -3949,7 +3949,7 @@ const ys = {
       l.value = parseInt(E);
     }
     r.on("updateWidth", Y), r.on("compact", ht), r.on("setDraggable", mt), r.on("setResizable", xt), r.on("setBounded", wt), r.on("setTransformScale", lt), r.on("setRowHeight", W), r.on("setMaxRows", dt), r.on("directionchange", yt), r.on("setColNum", pt), k.value = mn() === "rtl", Wn(() => {
-      r.off("updateWidth", Y), r.off("compact", ht), r.off("setDraggable", mt), r.off("setResizable", xt), r.off("setBounded", wt), r.off("setTransformScale", lt), r.off("setRowHeight", W), r.off("setMaxRows", dt), r.off("directionchange", yt), r.off("setColNum", pt), q.value && q.value.unset();
+      r.off("updateWidth", Y), r.off("compact", ht), r.off("setDraggable", mt), r.off("setResizable", xt), r.off("setBounded", wt), r.off("setTransformScale", lt), r.off("setRowHeight", W), r.off("setMaxRows", dt), r.off("directionchange", yt), r.off("setColNum", pt), U.value && U.value.unset();
     }), Fn(() => {
       o != null && o.responsive && o.lastBreakpoint ? l.value = Ve(o.lastBreakpoint, o == null ? void 0 : o.cols) : l.value = o == null ? void 0 : o.colNum, f.value = o == null ? void 0 : o.rowHeight, u.value = (o == null ? void 0 : o.width) !== null ? o == null ? void 0 : o.width : 100, h.value = (o == null ? void 0 : o.margin) !== void 0 ? o.margin : [10, 10], m.value = o == null ? void 0 : o.maxRows, s.isDraggable === null ? x.value = o == null ? void 0 : o.isDraggable : x.value = s.isDraggable, s.isResizable === null ? T.value = o == null ? void 0 : o.isResizable : T.value = s.isResizable, s.isBounded === null ? ut.value = o == null ? void 0 : o.isBounded : ut.value = s.isBounded, y.value = o == null ? void 0 : o.transformScale, D.value = o == null ? void 0 : o.useCssTransforms, I.value = o == null ? void 0 : o.useStyleCursor, nt();
     });
@@ -3959,12 +3959,12 @@ const ys = {
       let p = _t(z.value, st.value, rt.value, K.value);
       M.value && (p.top = (F = v.value) == null ? void 0 : F.top, ft.value ? p.right = (X = v.value) == null ? void 0 : X.left : p.left = (A = v.value) == null ? void 0 : A.left), d.value && (p.width = (G = C.value) == null ? void 0 : G.width, p.height = (Ft = C.value) == null ? void 0 : Ft.height);
       let E;
-      D.value ? ft.value ? E = Yi(p.top, p.right, p.width, p.height) : E = Xi(p.top, p.left, p.width, p.height) : ft.value ? E = qi(p.top, p.right, p.width, p.height) : E = Gi(p.top, p.left, p.width, p.height), V.value = E;
+      D.value ? ft.value ? E = Yi(p.top, p.right, p.width, p.height) : E = Xi(p.top, p.left, p.width, p.height) : ft.value ? E = qi(p.top, p.right, p.width, p.height) : E = Gi(p.top, p.left, p.width, p.height), q.value = E;
     }
     function bt() {
       let p = {};
       for (let E of ["width", "height"]) {
-        let X = V.value[E].match(/^(\d+)px$/);
+        let X = q.value[E].match(/^(\d+)px$/);
         if (!X)
           return;
         p[E] = X[1];
@@ -4117,22 +4117,22 @@ const ys = {
       nt();
     }
     function Lt() {
-      if ((q.value === null || q.value === void 0) && (q.value = Dt(c.value), I.value || q.value.styleCursor(!1)), x.value && !s.static) {
+      if ((U.value === null || U.value === void 0) && (U.value = Dt(c.value), I.value || U.value.styleCursor(!1)), x.value && !s.static) {
         const p = {
           ignoreFrom: s.dragIgnoreFrom,
           allowFrom: s.dragAllowFrom,
           ...s.dragOption
         };
-        q.value.draggable(p), b.value || (b.value = !0, q.value.on("dragstart dragmove dragend", function(E) {
+        U.value.draggable(p), b.value || (b.value = !0, U.value.on("dragstart dragmove dragend", function(E) {
           Et(E);
         }));
       } else
-        q.value.draggable({
+        U.value.draggable({
           enabled: !1
         });
     }
     function vt() {
-      if ((q.value === null || q.value === void 0) && (q.value = Dt(c.value), I.value || q.value.styleCursor(!1)), T.value && !s.static) {
+      if ((U.value === null || U.value === void 0) && (U.value = Dt(c.value), I.value || U.value.styleCursor(!1)), T.value && !s.static) {
         let p = _t(0, 0, s.maxW, s.maxH), E = _t(0, 0, s.minW, s.minH);
         const F = {
           // allowFrom: "." + this.resizableHandleClass.trim().replace(" ", "."),
@@ -4160,11 +4160,11 @@ const ys = {
           Dt.modifiers.aspectRatio({
             ratio: "preserve"
           })
-        ]), q.value.resizable(F), R.value || (R.value = !0, q.value.on("resizestart resizemove resizeend", function(X) {
+        ]), U.value.resizable(F), R.value || (R.value = !0, U.value.on("resizestart resizemove resizeend", function(X) {
           ge(X);
         }));
       } else
-        q.value.resizable({
+        U.value.resizable({
           enabled: !1
         });
     }
@@ -4189,15 +4189,16 @@ const ys = {
       autoSize: ke,
       calcXY: Ut,
       dragging: v,
-      ...s
+      ...s,
+      styleObj: q
     }), (p, E) => (Xe(), Ye("div", {
       ref_key: "this$refsItem",
       ref: c,
       class: dn(["vue-grid-item", S.value]),
-      style: Ge(V.value)
+      style: Ge(q.value)
     }, [
       Nn(p.$slots, "default", {
-        style: Ge(V.value)
+        style: Ge(q.value)
       }),
       pe.value ? (Xe(), Ye("span", {
         key: 0,
@@ -4464,11 +4465,11 @@ var ks = {
         function d() {
           if (D.position === "static") {
             m.style.setProperty("position", "relative", l.important ? "important" : "");
-            var $ = function(ot, L, V, k) {
+            var $ = function(ot, L, q, k) {
               function b(H) {
                 return H.replace(/[^-\d\.]/g, "");
               }
-              var R = V[k];
+              var R = q[k];
               R !== "auto" && b(R) !== "0" && (ot.warn("An element that is positioned static has style." + k + "=" + R + " which is ignored due to the static positioning. The element will need to be positioned relative, so the style." + k + " will be set to 0. Element: ", L), L.style.setProperty(k, "0", l.important ? "important" : ""));
             };
             $(t, m, D, "top"), $(t, m, D, "right"), $(t, m, D, "bottom"), $(t, m, D, "left");
@@ -4476,18 +4477,18 @@ var ks = {
         }
         function C() {
           y || d();
-          function $(L, V) {
+          function $(L, q) {
             if (!L.contentDocument) {
               var k = i(L);
               k.checkForObjectDocumentTimeoutId && window.clearTimeout(k.checkForObjectDocumentTimeoutId), k.checkForObjectDocumentTimeoutId = setTimeout(function() {
-                k.checkForObjectDocumentTimeoutId = 0, $(L, V);
+                k.checkForObjectDocumentTimeoutId = 0, $(L, q);
               }, 100);
               return;
             }
-            V(L.contentDocument);
+            q(L.contentDocument);
           }
           var ot = this;
-          $(ot, function(V) {
+          $(ot, function(q) {
             x(m);
           });
         }
@@ -4543,12 +4544,12 @@ var ks = {
     };
   }
   function f(v, d, C) {
-    function w(V, k) {
+    function w(q, k) {
       k = k || function(R) {
         v.head.appendChild(R);
       };
       var b = v.createElement("style");
-      return b.innerHTML = V, b.id = d, k(b), b;
+      return b.innerHTML = q, b.id = d, k(b), b;
     }
     if (!v.getElementById(d)) {
       var $ = C + "_animation", ot = C + "_animation_active", L = `/* Created by the element-resize-detector library. */
@@ -4618,7 +4619,7 @@ var ks = {
       var S = window.getComputedStyle(d), B = {};
       return B.position = S.position, B.width = d.offsetWidth, B.height = d.offsetHeight, B.top = S.top, B.right = S.right, B.bottom = S.bottom, B.left = S.left, B.widthCSS = S.width, B.heightCSS = S.height, B;
     }
-    function V() {
+    function q() {
       var S = L();
       i(d).startSize = {
         width: S.width,
@@ -4675,7 +4676,7 @@ var ks = {
       }
       return S;
     }
-    function q() {
+    function U() {
       function S() {
         var it = i(d).style;
         if (it.position === "static") {
@@ -4810,7 +4811,7 @@ var ks = {
       C(d);
     }
     function ft() {
-      w("Installing..."), k(), V(), n.add(0, b), n.add(1, q), n.add(2, pe), n.add(3, Pe), n.add(4, Oe);
+      w("Installing..."), k(), q(), n.add(0, b), n.add(1, U), n.add(2, pe), n.add(3, Pe), n.add(4, Oe);
     }
     w("Making detectable..."), $(d) ? (w("Element is detached"), ut(), w("Waiting until element is attached..."), i(d).onRendered = function() {
       w("Element is now attached"), ft();
@@ -4882,14 +4883,14 @@ var Ys = function(e) {
     throw new Error("Invalid strategy name: " + f);
   var x = {};
   function T(I, M, v) {
-    function d(V) {
-      var k = c.get(V);
+    function d(q) {
+      var k = c.get(q);
       ae(k, function(R) {
-        R(V);
+        R(q);
       });
     }
-    function C(V, k, b) {
-      c.add(k, b), V && b(k);
+    function C(q, k, b) {
+      c.add(k, b), q && b(k);
     }
     if (v || (v = M, M = I, I = {}), !M)
       throw new Error("At least one element required.");
@@ -5014,7 +5015,7 @@ const Gs = /* @__PURE__ */ xs(Ys), qs = {
     }), Fn(() => {
       D("layout-mounted", i.layout), zt(function() {
         Ui(i.layout), f.value = i.layout, zt(() => {
-          V(), C(), eo("resize", C), Jt(i.layout, i.verticalCompact), D("layout-updated", i.layout), d(), zt(() => {
+          q(), C(), eo("resize", C), Jt(i.layout, i.verticalCompact), D("layout-updated", i.layout), d(), zt(() => {
             h.value = Gs({
               strategy: "scroll",
               //<- For ultra performance.
@@ -5092,7 +5093,7 @@ const Gs = /* @__PURE__ */ xs(Ys), qs = {
       if (i.layout !== void 0 && f.value !== null) {
         if (i.layout.length !== f.value.length) {
           let b = k(i.layout, f.value);
-          b.length > 0 && (i.layout.length > f.value.length ? f.value = f.value.concat(b) : f.value = f.value.filter((R) => !b.some((H) => R.i === H.i))), a.value = i.layout.length, V();
+          b.length > 0 && (i.layout.length > f.value.length ? f.value = f.value.concat(b) : f.value = f.value.filter((R) => !b.some((H) => R.i === H.i))), a.value = i.layout.length, q();
         }
         Jt(i.layout, i.verticalCompact), y.emit("updateWidth", o.value), d(), D("layout-updated", i.layout);
       }
@@ -5111,9 +5112,9 @@ const Gs = /* @__PURE__ */ xs(Ys), qs = {
     function $(b, R, H, J, Z, Q) {
       let z = hn(i.layout, R);
       z == null && (z = { x: 0, y: 0 }), b === "dragstart" && !i.verticalCompact && (m.value = i.layout.reduce(
-        (rt, { i: K, x: ut, y: q }) => ({
+        (rt, { i: K, x: ut, y: U }) => ({
           ...rt,
-          [K]: { x: ut, y: q }
+          [K]: { x: ut, y: U }
         }),
         {}
       )), b === "dragmove" || b === "dragstart" ? (c.value.i = R, c.value.x = z.x, c.value.y = z.y, c.value.w = Q, c.value.h = Z, zt(function() {
@@ -5134,8 +5135,8 @@ const Gs = /* @__PURE__ */ xs(Ys), qs = {
         );
         if (st = rt.length > 0, st) {
           let K = 1 / 0, ut = 1 / 0;
-          rt.forEach((q) => {
-            q.x > Number(z == null ? void 0 : z.x) && (K = Math.min(K, q.x)), q.y > Number(z == null ? void 0 : z.y) && (ut = Math.min(ut, q.y));
+          rt.forEach((U) => {
+            U.x > Number(z == null ? void 0 : z.x) && (K = Math.min(K, U.x)), U.y > Number(z == null ? void 0 : z.y) && (ut = Math.min(ut, U.y));
           }), Number.isFinite(K) && (z.w = K - z.x), Number.isFinite(ut) && (z.h = ut - z.y);
         }
       }
@@ -5159,7 +5160,7 @@ const Gs = /* @__PURE__ */ xs(Ys), qs = {
       );
       l.value[b] = H, u.value !== b && D("breakpoint-changed", b, H), D("update:layout", H), u.value = b, y.emit("setColNum", Ve(b, i.cols));
     }
-    function V() {
+    function q() {
       l.value = Object.assign({}, i.responsiveLayouts);
     }
     function k(b, R) {
