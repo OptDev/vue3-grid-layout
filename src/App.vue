@@ -13,9 +13,93 @@ const colNum = ref<number>(12)
 
 const mapCache: Map<string, any> = new Map()
 
-function handleResize(i: string | number, w: number, h: number, x: number, y: number) {
-  console.log(i, w, h, x, y)
+function handleResize(
+  i: string | number,
+  h: number,
+  w: number,
+  hPx: number,
+  wPx: number,
+  x,
+  y,
+  prevX,
+  prevY,
+  edges
+) {
+  console.log("a", i, h, w, x, y)
+
+  updateNeighbourGridItems(i, h, w, x, y, prevX, prevY, edges)
 }
+
+function itemResize(i, h, w, hPx, wPx, x, y, prevX, prevY, edges) {
+  // console.log("b", "i=" + i, "h=" + h, "w=" + w, "x=" + x, "y=" + y)
+
+  updateNeighbourGridItems(i, h, w, x, y, prevX, prevY, edges)
+}
+
+function updateNeighbourGridItems(i, h, w, x, y, prevX, prevY, edges) {
+  const layout = testLayout.value
+  const nids = findNeighboursGridItemId(i, h, w, edges, prevX)
+  if (nids.length) {
+    if (edges.left) {
+      layout[i].x = x
+      for (let j = 0; j < nids.length; j++) {
+        layout[nids[j]].w = layout[i].x - layout[nids[j]].x
+      }
+    } else if (edges.right) {
+      layout[i].w = w
+      for (let j = 0; j < nids.length; j++) {
+        const oldX = layout[nids[j]].x
+        layout[nids[j]].x = layout[i].x + layout[i].w
+        layout[nids[j]].w = layout[nids[j]].w + (oldX - layout[nids[j]].x)
+      }
+    } else if (edges.bottom) {
+      layout[i].h = h
+      for (let j = 0; j < nids.length; j++) {
+        const oldY = layout[nids[j]].y
+        layout[nids[j]].y = layout[i].y + layout[i].h
+        layout[nids[j]].h = layout[nids[j]].h + (oldY - layout[nids[j]].y)
+      }
+    }
+  }
+}
+
+function findNeighboursGridItemId(id, h, w, edges, prevX) {
+  const layout = testLayout.value
+  let nids = []
+
+  // if resizing is triggered by left-bttom or right-bottom then ignore
+  if ((edges.left || edges.right) && edges.bottom) {
+    return nids
+  }
+
+  for (let i = 0; i < layout.length; i++) {
+    if (i == id) continue
+
+    // find a neighbour from the right side
+    if (edges.left) {
+      if (layout[id].x === layout[i].x + layout[i].w || prevX === layout[i].x + layout[i].w) {
+        if (layout[id].y < layout[i].y + layout[i].h && layout[id].y + layout[id].h > layout[i].y) {
+          nids.push(i)
+        }
+      }
+    } else if (edges.right) {
+      if (layout[id].x + layout[id].w === layout[i].x) {
+        if (layout[id].y < layout[i].y + layout[i].h && layout[id].y + layout[id].h > layout[i].y) {
+          nids.push(i)
+        }
+      }
+    } else if (edges.bottom) {
+      if (layout[id].y + layout[id].h === layout[i].y) {
+        if (layout[id].x < layout[i].x + layout[i].w && layout[id].x + layout[id].w > layout[i].x) {
+          nids.push(i)
+        }
+      }
+    }
+  }
+
+  return nids
+}
+
 const responsive = ref<boolean>(true)
 
 function set$Children(vm: any) {
@@ -133,13 +217,14 @@ onMounted(() => {
         ref="refLayout"
         v-model:layout="testLayout"
         :responsive="true"
-        :col-num="12"
-        :row-height="30"
+        :col-num="100"
+        :row-height="10"
         :is-draggable="true"
         :is-resizable="true"
-        :vertical-compact="true"
+        :vertical-compact="false"
         :use-css-transforms="true"
-        :prevent-collision="false"
+        :prevent-collision="true"
+        :margin="[1, 1]"
       >
         <grid-item
           v-for="item in testLayout"
@@ -152,10 +237,11 @@ onMounted(() => {
           :h="item.h"
           :i="item.i"
           @resized="handleResize"
+          @resize="itemResize"
         >
           <!--<custom-drag-element :text="item.i"></custom-drag-element>-->
           <div>
-            {{ item.i }}
+            {{ item }}
             <!-- {{ style }} -->
           </div>
           <!--<button @click="clicked">CLICK ME!</button>-->

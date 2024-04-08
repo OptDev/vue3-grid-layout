@@ -250,7 +250,7 @@ watch(cols, () => {
 watch(containerWidth, () => {
   tryMakeResizable()
   createStyle()
-  emitContainerResized
+  emitContainerResized()
 })
 watch(
   () => props.x,
@@ -530,10 +530,15 @@ function handleResize(event: MouseEvent) {
         if (event.edges.left) {
           coreEvent.deltaX = -coreEvent.deltaX
         }
-        if (renderRtl.value) {
-          newSize.width = Number(resizing.value?.width) - coreEvent.deltaX / transformScale.value
+        if (event.edges.bottom && !(event.edges.left || event.edges.right)) {
+          // when dragging from bottom then do not chnage width
+          newSize.width = Number(resizing.value?.width)
         } else {
-          newSize.width = Number(resizing.value?.width) + coreEvent.deltaX / transformScale.value
+          if (renderRtl.value) {
+            newSize.width = Number(resizing.value?.width) - coreEvent.deltaX / transformScale.value
+          } else {
+            newSize.width = Number(resizing.value?.width) + coreEvent.deltaX / transformScale.value
+          }
         }
         if ((event.edges.left || event.edges.right) && !event.edges.bottom) {
           newSize.height = Number(resizing.value?.height)
@@ -557,9 +562,28 @@ function handleResize(event: MouseEvent) {
       }
       case "resizeend": {
         //console.log("### resize end => x=" +this.innerX + " y=" + this.innerY + " w=" + this.innerW + " h=" + this.innerH);
-        pos = calcPosition(innerX.value, innerY.value, innerW.value, innerH.value)
-        newSize.width = pos.width
-        newSize.height = pos.height
+
+        // pos = calcPosition(innerX.value, innerY.value, innerW.value, innerH.value)
+        // newSize.width = pos.width
+        // newSize.height = pos.height
+
+        // let's use resizemove's code to get width and height
+        const coreEvent = createCoreData(lastW.value, lastH.value, x, y)
+        if (event.edges.bottom && !(event.edges.left || event.edges.right)) {
+          // when dragging from bottom then do not chnage width
+          newSize.width = Number(resizing.value?.width)
+        } else {
+          if (renderRtl.value) {
+            newSize.width = Number(resizing.value?.width) - coreEvent.deltaX / transformScale.value
+          } else {
+            newSize.width = Number(resizing.value?.width) + coreEvent.deltaX / transformScale.value
+          }
+        }
+        if ((event.edges.left || event.edges.right) && !event.edges.bottom) {
+          newSize.height = Number(resizing.value?.height)
+        } else {
+          newSize.height = Number(resizing.value?.height) + coreEvent.deltaY / transformScale.value
+        }
         //                        console.log("### resize end => " + JSON.stringify(newSize));
         resizing.value = null
         isResizing.value = false
@@ -600,14 +624,93 @@ function handleResize(event: MouseEvent) {
     lastW.value = x
     lastH.value = y
 
+    //////////////////////////////////////////////////
+    // codes to get newPosision
+    //////////////////////////////////////////////////
+    let newPosition = {top: 0, left: 0}
+    if (event.type == "resizestart" || event.type == "resizeend") {
+      const tg = event.target as HTMLElement
+      const parentTg = tg.offsetParent as HTMLElement
+      let parentRect = parentTg.getBoundingClientRect()
+      let clientRect = tg.getBoundingClientRect()
+
+      const cLeft = clientRect.left / transformScale.value
+      const pLeft = parentRect.left / transformScale.value
+      const cRight = clientRect.right / transformScale.value
+      const pRight = parentRect.right / transformScale.value
+      const cTop = clientRect.top / transformScale.value
+      const pTop = parentRect.top / transformScale.value
+
+      if (renderRtl.value) {
+        newPosition.left = (cRight - pRight) * -1
+      } else {
+        newPosition.left = cLeft - pLeft
+      }
+      newPosition.top = cTop - pTop
+    } else if (event.type == "resizemove") {
+      const coreEvent = createCoreData(lastX.value, lastY.value, x, y)
+      //                        Add rtl support
+      if (renderRtl.value) {
+        newPosition.left = Number(dragging.value?.left) - coreEvent.deltaX / transformScale.value
+      } else {
+        newPosition.left = Number(dragging.value?.left) + coreEvent.deltaX / transformScale.value
+      }
+      if (event?.edges?.left) {
+        newPosition.top = Number(dragging.value?.top)
+      } else {
+        newPosition.top = Number(dragging.value?.top) + coreEvent.deltaY / transformScale.value
+      }
+    }
+
+    let pos2
+    if (renderRtl.value) {
+      pos2 = calcXY(newPosition.top, newPosition.left)
+    } else {
+      pos2 = calcXY(newPosition.top, newPosition.left)
+    }
+
+    // copy the new X
+    innerX.value = pos2.x
+    //////////////////////////////////////////////////
+
     if (innerW.value !== pos.w || innerH.value !== pos.h) {
-      emit("resize", props.i, pos.h, pos.w, newSize.height, newSize.width)
+      emit(
+        "resize",
+        props.i,
+        pos.h,
+        pos.w,
+        newSize.height,
+        newSize.width,
+        innerX.value, // current X
+        innerY.value, // current Y
+        previousX.value, // previous X
+        previousY.value, // previous Y
+        event.interaction.prepared.edges
+      )
+      // after emit copy the current XY to the previous XY
+      previousX.value = innerX.value
+      previousY.value = innerY.value
     }
     if (
       event.type === "resizeend" &&
-      (previousW.value !== innerW.value || previousH.value !== innerH.value)
+      true /*(previousW.value !== innerW.value || previousH.value !== innerH.value)*/
     ) {
-      emit("resized", props.i, pos.h, pos.w, newSize.height, newSize.width)
+      emit(
+        "resized",
+        props.i,
+        pos.h,
+        pos.w,
+        newSize.height,
+        newSize.width,
+        innerX.value, // current X
+        innerY.value, // current Y
+        previousX.value, // previous X
+        previousY.value, // previous Y
+        event.interaction.prepared.edges
+      )
+      // after emit copy the current XY to the previous XY
+      previousX.value = innerX.value
+      previousY.value = innerY.value
     }
     const data = {
       eventType: event.type,

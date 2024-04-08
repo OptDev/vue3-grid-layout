@@ -56,4 +56,9 @@
 //   {x: 2, y: 6, w: 2, h: 2, i: "19", resizable: false, draggable: false, static: false}
 // ]
 
-export const testData = [{x: 0, y: 0, w: 6, h: 3, i: "0"}]
+export const testData = [
+  {x: 0, y: 0, w: 3, h: 15, i: "0"},
+  {x: 3, y: 0, w: 3, h: 15, i: "1"},
+  {x: 0, y: 3, w: 3, h: 15, i: "2"},
+  {x: 3, y: 3, w: 3, h: 15, i: "3"}
+]
