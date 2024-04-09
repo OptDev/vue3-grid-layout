@@ -66,8 +66,32 @@ const emit = defineEmits<{
     height: number,
     width: number
   ): void
-  (e: "resize", i: number | string, h: number, w: number, height: number, width: number): void
-  (e: "resized", i: number | string, h: number, w: number, height: number, width: number): void
+  (
+    e: "resize",
+    i: number | string,
+    h: number,
+    w: number,
+    height: number,
+    width: number,
+    x: number,
+    y: number,
+    prevX: number,
+    prevY: number,
+    edges: any
+  ): void
+  (
+    e: "resized",
+    i: number | string,
+    h: number,
+    w: number,
+    height: number,
+    width: number,
+    x: number,
+    y: number,
+    prevX: number,
+    prevY: number,
+    edges: any
+  ): void
   (e: "move", i: number | string, x: number, y: number): void
   (e: "moved", i: number | string, x: number, y: number): void
 }>()

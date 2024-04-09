@@ -62,7 +62,7 @@ export interface LayoutData {
 }
 import { EventType } from "mitt";
 import elementResizeDetectorMaker from "element-resize-detector";
-import { Layout } from '../../../../../C:/dev/vue3-grid-layout/src/helpers/utils';
+import { Layout } from '../../../../../../../../C:/Users/Kiyoung/Documents/GitHub/vue3-grid-layout/src/helpers/utils';
 declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<Props>, {
     autoSize: boolean;
     colNum: number;

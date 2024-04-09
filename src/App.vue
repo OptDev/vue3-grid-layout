@@ -19,24 +19,44 @@ function handleResize(
   w: number,
   hPx: number,
   wPx: number,
-  x,
-  y,
-  prevX,
-  prevY,
-  edges
+  x: number,
+  y: number,
+  prevX: number,
+  prevY: number,
+  edges: any
 ) {
   console.log("a", i, h, w, x, y)
 
   updateNeighbourGridItems(i, h, w, x, y, prevX, prevY, edges)
 }
 
-function itemResize(i, h, w, hPx, wPx, x, y, prevX, prevY, edges) {
+function itemResize(
+  i: string | number,
+  h: number,
+  w: number,
+  hPx: number,
+  wPx: number,
+  x: number,
+  y: number,
+  prevX: number,
+  prevY: number,
+  edges: any
+) {
   // console.log("b", "i=" + i, "h=" + h, "w=" + w, "x=" + x, "y=" + y)
 
   updateNeighbourGridItems(i, h, w, x, y, prevX, prevY, edges)
 }
 
-function updateNeighbourGridItems(i, h, w, x, y, prevX, prevY, edges) {
+function updateNeighbourGridItems(
+  i: string | number,
+  h: number,
+  w: number,
+  x: number,
+  y: number,
+  prevX: number,
+  prevY: number,
+  edges: any
+) {
   const layout = testLayout.value
   const nids = findNeighboursGridItemId(i, h, w, edges, prevX)
   if (nids.length) {
@@ -63,9 +83,16 @@ function updateNeighbourGridItems(i, h, w, x, y, prevX, prevY, edges) {
   }
 }
 
-function findNeighboursGridItemId(id, h, w, edges, prevX) {
+function findNeighboursGridItemId(
+  id: string | number,
+  h: number,
+  w: number,
+  edges: any,
+  prevX: number
+) {
   const layout = testLayout.value
-  let nids = []
+  let nids: Array<number>
+  nids = []
 
   // if resizing is triggered by left-bttom or right-bottom then ignore
   if ((edges.left || edges.right) && edges.bottom) {
